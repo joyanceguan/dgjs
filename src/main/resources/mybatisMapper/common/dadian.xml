@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgjs.mapper.common.DadianMapper">
+  	<insert id="insert" parameterType="com.dgjs.model.view.DadianView" keyProperty="id" useGeneratedKeys="true">
+	       INSERT INTO dadian (
+				id,
+				browseversion,
+				channel,
+				ctime,
+				height,
+				ip,
+				mac,
+				note,
+				os,
+				padpcmobile,
+				page,
+				pageadids,
+				pagedocids,
+				pagetype,
+				pageid,
+				sendwindowsevent,
+				ua,
+				ipcity,
+				ipprovince,
+				ipcountry,
+				uuid,
+				width
+			)
+			VALUES
+			(
+			   #{id},
+               #{browseversion},
+               #{channel},
+               #{ctime},
+               #{height},
+               #{ip},
+               #{mac},
+               #{note},
+               #{os},
+               #{padpcmobile},
+               #{page},
+               #{pageadids},
+               #{pagedocids},
+               #{pagetype},
+               #{pageid},
+               #{sendwindowsevent},
+               #{ua},
+               #{ipcity},
+			   #{ipprovince},
+			   #{ipcountry},
+               #{uuid},
+               #{width}
+			)
+	</insert>
+	
+	<select id="pageIdCount" resultType="int">
+	     select count(0) from dadian 
+	     <where>
+	         <if test="pageid!=null and pageid!=''">
+	            pageid = #{pageid}
+	         </if>
+	     </where>
+	</select>
+	
+	<select id="pagedocidsCount" resultType="PagedocidsCountResult">
+	   select pagedocids,count(0) as visits from dadian where pagedocids in
+	   <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+       </foreach>
+       group by pagedocids
+	</select>
+	
+</mapper>

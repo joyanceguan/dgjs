@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dgjs.mapper.content.CommentsMapper">
+
+    <insert id="save" parameterType="comments" keyProperty="id">
+	  insert into comments 
+	  (
+	           id,
+               articlescrap_id,
+               comment_name,
+               comment_id,
+               ip_address,
+               comment,
+               comment_time,
+               parent_id,
+               is_show,
+               email
+	  )
+	  values
+	  (
+	           #{id},
+               #{articlescrap_id},
+               #{comment_name},
+               #{comment_id},
+               #{ip_address},
+               #{comment},
+               #{comment_time},
+               #{parent_id},
+               #{is_show},
+               #{email}
+	  )
+   </insert>
+
+   <delete id="deleteById">
+         delete from comments where id = #{id}
+   </delete>
+
+   <select id="getCommentsByArticlescrapId" resultType="comments">
+         select
+              id,
+              articlescrap_id,
+              comment_name,
+              comment_id,
+              ip_address,
+              comment,
+              comment_time,
+              parent_id,
+              is_show,
+              c_desc,
+              email
+         from comments where articlescrap_id=#{articlescrap_id} order by
+         comment_time limit #{beginNum},#{onePageSize}
+   </select>
+
+   <select id="sizeCommentsByArticlescrapId" resultType="int">
+         select count(1) from comments where articlescrap_id=#{articlescrap_id}
+   </select>
+   
+   <update id="update">
+        update comments set is_show = #{is_show},c_desc=#{c_desc} where id = #{id}
+   </update>
+     
+   <select id="getComments" resultType="String">
+         select c.articlescrap_id from 
+         (
+           select articlescrap_id,comment_time from comments order by comment_time desc
+         ) c
+         group by c.articlescrap_id order by c.comment_time desc limit 0,#{number}
+   </select>
+</mapper>
