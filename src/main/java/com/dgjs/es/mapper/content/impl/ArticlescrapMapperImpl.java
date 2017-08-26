@@ -41,7 +41,7 @@ import com.dgjs.model.persistence.Recommend;
 import com.dgjs.model.persistence.condition.ArticlescrapCondtion;
 import com.dgjs.utils.DateUtils;
 
-@Service("cArticlescrapMapper")
+@Service("articlescrapMapper")
 public class ArticlescrapMapperImpl implements ArticlescrapMapper{
 
 	@Autowired
